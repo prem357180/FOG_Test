@@ -1,0 +1,17 @@
+.container {
+    max-width: 672px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #262626;
+    border-radius: 8px;
+  }
+  
+  .canvas {
+    width: 100%;
+    background-color: #171717;
+  }
+  
+  body {
+    background-color: #aaa;
+    margin: 0;
+  }
