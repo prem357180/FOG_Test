@@ -9,12 +9,12 @@ function GameSettings() {
     useEffect(() => {
     const fetchSettings = async () => {
         try {
-          // const response = await fetch('https://my.api.mockaroo.com/fog_test.json', {
-          //   headers: {
-          //     'X-API-Key': '5f118670', // Add your Mockaroo API key here
-          //   },
-          // });
-          const response = await fetch('http://localhost:3000/api/posts');
+           const response = await fetch('https://my.api.mockaroo.com/fog_test.json', {
+             headers: {
+               'X-API-Key': '5f118670', // Add your Mockaroo API key here
+             },
+           });
+          // const response = await fetch('http://localhost:3000/api/posts');
       
           if (!response.ok) {
             throw new Error('Failed to fetch settings');
