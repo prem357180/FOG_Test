@@ -343,7 +343,13 @@ h2{
     filter: invert(1);
     transition: all 0.1s ease-in-out;
 }
-
+.highlight{
+    filter: brightness(90%);
+}
+.highlight:hover{
+    filter: brightness(100%);
+    font-weight: 600;
+}
 @media only screen and (max-width: 1045px) {
     .bg{
         height: 200vh;
