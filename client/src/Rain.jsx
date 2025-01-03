@@ -3,13 +3,13 @@ import './css/Rain.css';
 
 const FallingSquares = () => {
   const canvasRef = useRef(null);
-  const width = 33;
-  const height = 22;
+  const width = 20;
+  const height = 15;
   const scale = 20;
-  const speed = 20;
-  const trailLength = 5;
-  const numSquares = 10;
-  const colorChangeInterval = 1000;
+  const speed = 50;
+  const trailLength = 6;
+  const numSquares = 5;
+  const colorTransitionSpeed = 0.1; // Speed of color transition
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -18,11 +18,16 @@ const FallingSquares = () => {
     canvas.height = height * scale;
     ctx.setTransform(scale, 0, 0, -scale, 0, canvas.height);
 
-    let currentColor = `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`;
+    let currentColor = [Math.random() * 255, Math.random() * 255, Math.random() * 255];
+    let targetColor = [Math.random() * 255, Math.random() * 255, Math.random() * 255];
+
+    const interpolateColor = (current, target, speed) =>
+      current.map((c, i) => c + (target[i] - c) * speed);
+
     let squares = Array(numSquares).fill().map(() => ({
       x: Math.floor(Math.random() * width),
       y: Math.floor(Math.random() * height),
-      trail: []
+      trail: [],
     }));
 
     const drawGrid = () => {
@@ -45,18 +50,19 @@ const FallingSquares = () => {
     const stepSquares = () => {
       squares.forEach(square => {
         square.trail.forEach((pos, i) => {
-          ctx.fillStyle = currentColor.replace('rgb', 'rgba').replace(')', `,${(trailLength - i) / trailLength})`);
+          const trailOpacity = (trailLength - i) / trailLength;
+          ctx.fillStyle = `rgba(${currentColor.map(c => Math.round(c)).join(',')}, ${trailOpacity})`;
           ctx.fillRect(pos.x, pos.y, 1, 1);
         });
-        
-        ctx.fillStyle = currentColor;
+
+        ctx.fillStyle = `rgb(${currentColor.map(c => Math.round(c)).join(',')})`;
         ctx.fillRect(square.x, square.y, 1, 1);
-        
-        square.trail.unshift({x: square.x, y: square.y});
+
+        square.trail.unshift({ x: square.x, y: square.y });
         if (square.trail.length > trailLength) {
           square.trail.pop();
         }
-        
+
         if (square.y === 0) {
           square.x = Math.floor(Math.random() * width);
           square.y = height;
@@ -71,16 +77,17 @@ const FallingSquares = () => {
       ctx.clearRect(0, 0, width, height);
       drawGrid();
       stepSquares();
+      currentColor = interpolateColor(currentColor, targetColor, colorTransitionSpeed);
+      if (
+        currentColor.every((c, i) => Math.abs(c - targetColor[i]) < 1)
+      ) {
+        targetColor = [Math.random() * 255, Math.random() * 255, Math.random() * 255];
+      }
     };
-
-    const colorInterval = setInterval(() => {
-      currentColor = `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`;
-    }, colorChangeInterval);
 
     const animationInterval = setInterval(loop, speed);
 
     return () => {
-      clearInterval(colorInterval);
       clearInterval(animationInterval);
     };
   }, []);
