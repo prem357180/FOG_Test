@@ -26,7 +26,7 @@ function App() {
 
 
         <div className='middle'>
-          <h2 className='heading1'> <img src="/chevron_left.png" alt="" width={20}/>MULTIPLAYER &nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp; SERVER BROWSER &nbsp;&nbsp;&nbsp; /</h2>
+          <h2 className='heading1'> <img src="/chevron_left.png" alt="" width={20} className='highlight'/><span className='highlight'>MULTIPLAYER</span> &nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp; <span className='highlight'>SERVER BROWSER</span> &nbsp;&nbsp;&nbsp; /</h2>
           <h1>SERVER INFO</h1>
           <div className='scrollable'>
             <div className='fix'>
